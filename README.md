@@ -39,13 +39,12 @@ A vertex buffer object (VBO) is an [OpenGL](https://en.wikipedia.org/wiki/OpenGL
 * [Vertex Array Object](https://en.wikipedia.org/wiki/Vertex_(computer_graphics)) (VAO): An object that stores the configuration of vertex attribute pointers. It essentially bundles together the VBOs and their associated state for rendering. This object acts as a container for all the state needed to manage vertex data. A VAO stores references to one or more VBOs and an EBO, along with the layout of the vertex attributes (e.g., how the data is structured within the buffer). By binding a VAO, you can quickly switch between different mesh configurations without re-specifying all the vertex attributes individually.
     * A VAO is generated with ```glGenVertexArray``` and activated with ```glBindVertexArray```.
     * Once a VAO is bound, subsequent calls to glVertexAttribPointer and glEnableVertexAttribArray will be recorded within that VAO.
-* Index Buffer Object (IBO): An optional buffer that contains the indices of the vertices to be drawn, specifying the order in which the GPU should use the vertices from the VBO.
+* [Index Buffer Object](https://en.wikipedia.org/wiki/Vertex_buffer_object) (IBO): An optional buffer that contains the indices of the vertices to be drawn, specifying the order in which the GPU should use the vertices from the VBO.
     * This is useful for drawing complex shapes with fewer vertices and for using shared vertices.
     * An IBO is bound to ```GL_ELEMENT_ARRAY_BUFFER```.
-* Vertex Attributes: Individual pieces of data within a vertex, such as \(x,y,z\) coordinates, normal vectors, or RGBA color values.
+* [Vertex Attributes](https://wikis.khronos.org/opengl/Vertex_Specification): Individual pieces of data within a vertex, such as \(x,y,z\) coordinates, normal vectors, or RGBA color values.  These are the specific pieces of data associated with each vertex. In the vertex shader, you define an input variable for each attribute, which can include:
    * Each attribute is associated with a specific index and is configured using ```glVertexAttribPointer```.
    * ```glEnableVertexAttribArray``` must be called to activate each attribute before it can be used by the vertex shader. 
- * Vertex Attributes: These are the specific pieces of data associated with each vertex. In the vertex shader, you define an input variable for each attribute, which can include:
     * Position: The 3D coordinates (\(x,y,z\)) of the vertex in space.
     * Color: The color (\(r,g,b,a\)) of the vertex.
     * Normal: A 3D vector used for lighting calculations to determine which way a surface is facing.

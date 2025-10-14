@@ -71,7 +71,7 @@ Upload data to the active VBO.
 * ```glDeleteBuffers(sizei n, const uint *buffers)```  
 Deletes the specified number of VBOs from the supplied array or VBO id.
 
-### Simple Pascal OpnGL Example
+### Simple Pascal OpenGL Example
 ```pascal
 unit mainWin;
 

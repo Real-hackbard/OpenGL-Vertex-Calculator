@@ -45,7 +45,11 @@ A vertex buffer object (VBO) is an [OpenGL](https://en.wikipedia.org/wiki/OpenGL
 * Vertex Attributes: Individual pieces of data within a vertex, such as \(x,y,z\) coordinates, normal vectors, or RGBA color values.
    * Each attribute is associated with a specific index and is configured using ```glVertexAttribPointer```.
    * ```glEnableVertexAttribArray``` must be called to activate each attribute before it can be used by the vertex shader. 
- 
+ * Vertex Attributes: These are the specific pieces of data associated with each vertex. In the vertex shader, you define an input variable for each attribute, which can include:
+    * Position: The 3D coordinates (\(x,y,z\)) of the vertex in space.
+    * Color: The color (\(r,g,b,a\)) of the vertex.
+    * Normal: A 3D vector used for lighting calculations to determine which way a surface is facing.
+    * Texture Coordinates: 2D coordinates (\(u,v\)) that map a texture image to the vertex.
 
 
 

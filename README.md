@@ -16,6 +16,15 @@ In OpenGL, [Vertex information](https://en.wikipedia.org/wiki/Vertex) is data ab
 
 </br>
 
+### Features
+* Adjust Colors
+* Adjust Vertex Points
+* Render Bitmap or Frames
+* Select Style
+* Get Vertex Data
+
+</br>
+
 ![OpenGL Vertex](https://github.com/user-attachments/assets/48c44021-e530-436e-84f4-8d27b3218bd4)
 
 </br>

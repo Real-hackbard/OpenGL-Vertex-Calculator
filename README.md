@@ -59,16 +59,16 @@ Generates a new VBO and returns its ID number as an unsigned integer. Id 0 is re
 Use a previously created buffer as the active VBO.
 * ```glBufferDataARB(enum target, sizeiptrARB size, const void *data, enum usage)```  
 Upload data to the active VBO.
-* glDeleteBuffersARB(sizei n, const uint *buffers)
+* ```glDeleteBuffersARB(sizei n, const uint *buffers)```  
 Deletes the specified number of VBOs from the supplied array or VBO id.
 In OpenGL 2.1, OpenGL 3.x and OpenGL 4.x:
-* glGenBuffers(sizei n, uint *buffers)
+* ```glGenBuffers(sizei n, uint *buffers)```  
 Generates a new VBO and returns its ID number as an unsigned integer. Id 0 is reserved.
-* glBindBuffer(enum target, uint buffer)
+* ```glBindBuffer(enum target, uint buffer)```  
 Use a previously created buffer as the active VBO.
-* glBufferData(enum target, sizeiptrARB size, const void *data, enum usage)
+* ```glBufferData(enum target, sizeiptrARB size, const void *data, enum usage)```  
 Upload data to the active VBO.
-* glDeleteBuffers(sizei n, const uint *buffers)
+* ```glDeleteBuffers(sizei n, const uint *buffers)```  
 Deletes the specified number of VBOs from the supplied array or VBO id.
 
 

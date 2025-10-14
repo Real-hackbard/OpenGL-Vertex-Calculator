@@ -32,16 +32,18 @@ In OpenGL, [Vertex information](https://en.wikipedia.org/wiki/Vertex) is data ab
 A vertex buffer object (VBO) is an [OpenGL](https://en.wikipedia.org/wiki/OpenGL) feature that provides methods for uploading vertex data (position, normal vector, color, etc.) to the video device for non-immediate-mode rendering. VBOs offer substantial performance gains over [immediate mode rendering](https://en.wikipedia.org/wiki/Immediate_mode_(computer_graphics)) primarily because the data reside in video device memory rather than system memory and so it can be rendered directly by the video device. These are equivalent to [vertex buffers](https://en.wikipedia.org/wiki/Glossary_of_computer_graphics#vertex_buffer) in [Direct3D](https://en.wikipedia.org/wiki/Direct3D).
 
 ### Key components for vertex information:
-* Vertex Buffer Object (VBO): A buffer on the GPU's memory (VRAM) that holds vertex data like position and color.
+* Vertex Buffer Object (VBO): This is a buffer stored in the GPU's memory that holds the raw vertex data, such as coordinates, normals, and colors. Storing data in a VBO and sending it to the GPU once dramatically increases rendering performance compared to sending it for every frame.
     * VBOs are created and filled with data using glGenBuffers and glBufferData.
     * Binding a VBO to ```GL_ARRAY_BUFFER``` makes it the active source for vertex attributes.
-* Vertex Array Object (VAO): An object that stores the configuration of vertex attribute pointers. It essentially bundles together the VBOs and their associated state for rendering.
+* Vertex Array Object (VAO): An object that stores the configuration of vertex attribute pointers. It essentially bundles together the VBOs and their associated state for rendering. This object acts as a container for all the state needed to manage vertex data. A VAO stores references to one or more VBOs and an EBO, along with the layout of the vertex attributes (e.g., how the data is structured within the buffer). By binding a VAO, you can quickly switch between different mesh configurations without re-specifying all the vertex attributes individually.
     * A VAO is generated with ```glGenVertexArray``` and activated with ```glBindVertexArray```.
     * Once a VAO is bound, subsequent calls to glVertexAttribPointer and glEnableVertexAttribArray will be recorded within that VAO.
 * Index Buffer Object (IBO): An optional buffer that contains the indices of the vertices to be drawn, specifying the order in which the GPU should use the vertices from the VBO.
     * This is useful for drawing complex shapes with fewer vertices and for using shared vertices.
     * An IBO is bound to ```GL_ELEMENT_ARRAY_BUFFER```.
-
+* Vertex Attributes: Individual pieces of data within a vertex, such as \(x,y,z\) coordinates, normal vectors, or RGBA color values.
+   * Each attribute is associated with a specific index and is configured using ```glVertexAttribPointer```.
+   * ```glEnableVertexAttribArray``` must be called to activate each attribute before it can be used by the vertex shader. 
  
 
 

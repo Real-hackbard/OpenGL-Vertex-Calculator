@@ -53,11 +53,11 @@ A vertex buffer object (VBO) is an [OpenGL](https://en.wikipedia.org/wiki/OpenGL
 ### Basic VBO functions:
 The following functions form the core of VBO access and manipulation:
 
-* ```glGenBuffersARB(sizei n, uint *buffers)```
+* ```glGenBuffersARB(sizei n, uint *buffers)```  
 Generates a new VBO and returns its ID number as an unsigned integer. Id 0 is reserved.
-* ```glBindBufferARB(enum target, uint buffer)```
+* ```glBindBufferARB(enum target, uint buffer)```  
 Use a previously created buffer as the active VBO.
-* ```glBufferDataARB(enum target, sizeiptrARB size, const void *data, enum usage)```
+* ```glBufferDataARB(enum target, sizeiptrARB size, const void *data, enum usage)```  
 Upload data to the active VBO.
 * glDeleteBuffersARB(sizei n, const uint *buffers)
 Deletes the specified number of VBOs from the supplied array or VBO id.

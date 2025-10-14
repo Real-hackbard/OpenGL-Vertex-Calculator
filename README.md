@@ -71,5 +71,172 @@ Upload data to the active VBO.
 * ```glDeleteBuffers(sizei n, const uint *buffers)```  
 Deletes the specified number of VBOs from the supplied array or VBO id.
 
+### Simple Pascal OpnGL Example
+```pascal
+unit mainWin;
 
+interface
+
+uses
+  OpenGL, Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ExtCtrls, Math;
+
+type
+
+  TBall = record
+    x, phi: Double;
+  end;
+
+  TmainFrm = class(TForm)
+    Timer1: TTimer; // 25 ms
+    procedure FormPaint(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
+    procedure FormMouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
+    procedure FormResize(Sender: TObject);
+    procedure WMEraseBkGnd(var Message:TMessage); message WM_ERASEBKGND;
+  private
+    Angle: Double;
+    Balls: array[0..100] of TBall;
+    BallIndex: Integer;
+    procedure InitGL;
+  end;
+
+var
+  mainFrm: TmainFrm;
+
+implementation
+
+{$R *.dfm}
+
+procedure TmainFrm.InitGL;
+const
+  pfd: TPixelFormatDescriptor = (
+    nSize: SizeOf(TPixelFormatDescriptor);
+    nVersion: 1;
+    dwFlags: PFD_SUPPORT_OPENGL or PFD_DRAW_TO_WINDOW or PFD_DOUBLEBUFFER;
+    iPixelType: PFD_TYPE_RGBA;
+    cColorBits: 32;
+    cRedBits: 0; cRedShift: 0;
+    cGreenBits: 0;  cGreenShift: 0;
+    cBlueBits: 0; cBlueShift: 0;
+    cAlphaBits: 0;  cAlphaShift: 0;
+    cAccumBits: 0;
+    cAccumRedBits: 0;
+    cAccumGreenBits: 0;
+    cAccumBlueBits: 0;
+    cAccumAlphaBits: 0;
+    cDepthBits: 24;
+    cStencilBits: 0;
+    cAuxBuffers: 0;
+    iLayerType: PFD_MAIN_PLANE;
+    bReserved: 0;
+    dwLayerMask: 0;
+    dwVisibleMask: 0;
+    dwDamageMask: 0;
+  );
+
+begin
+  var DC := GetDC(Handle);
+  var PixelFormat := ChoosePixelFormat(DC, @pfd);
+  if PixelFormat = 0 then
+    RaiseLastOSError;
+  if not SetPixelFormat(DC, PixelFormat, @pfd) then
+    RaiseLastOSError;
+  var RC := wglCreateContext(DC);
+  if RC = 0 then
+    RaiseLastOSError;
+  wglMakeCurrent(DC, RC);
+  glEnable(GL_DEPTH_TEST);
+  glEnable(GL_LINE_SMOOTH);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+  glPointSize(10);
+  glEnable(GL_POINT_SMOOTH);
+  FormResize(Self);
+end;
+
+procedure TmainFrm.FormPaint(Sender: TObject);
+const
+  p1: TGLArrayf3 = (-5, -5, -1);
+  p2: TGLArrayf3 = (5, -5, -1);
+  p3: TGLArrayf3 = (0, 5, -1);
+begin
+
+  if Tag = 0 then
+  begin
+    InitGL;
+    Tag := 1;
+  end;
+
+  glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT);
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity;
+
+  glColor3ub(255, 255, 255);
+  glRotate(Angle, 0, 0, 1);
+  glBegin(GL_TRIANGLES);
+  glVertex3fv(@p1); glVertex3fv(@p2); glVertex3fv(@p3);
+  glEnd;
+  glRotate(-Angle, 0, 0, 1);
+
+  glColor3ub(255, 0, 0);
+
+  for var i := Low(Balls) to High(Balls) do
+  begin
+    if (Balls[i].x = 0) or (Balls[i].x > 100) then
+      Continue;
+    glRotate(Balls[i].phi, 0, 0, 1);
+    glBegin(GL_POINTS);
+    glVertex3f(0, Balls[i].x, -1);
+    glEnd;
+    glRotate(-Balls[i].phi, 0, 0, 1);
+  end;
+
+  SwapBuffers(wglGetCurrentDC);
+
+end;
+
+procedure TmainFrm.FormResize(Sender: TObject);
+begin
+  glViewport(0, 0, ClientWidth, ClientHeight);
+  glMatrixMode(GL_PROJECTION);
+  const AR = ClientWidth / Max(ClientHeight, 1);
+  glLoadIdentity;
+  glOrtho(-15*AR, 15*AR, -15, 15, 0.5, 25.0);
+  glMatrixMode(GL_MODELVIEW);
+end;
+
+procedure TmainFrm.Timer1Timer(Sender: TObject);
+begin
+
+  for var i := Low(Balls) to High(Balls) do
+    if Balls[i].x <> 0 then
+      Balls[i].x := Balls[i].x + 1;
+
+  if csLButtonDown in ControlState then // Add new ball
+  begin
+    Balls[BallIndex].x := 5;
+    Balls[BallIndex].phi := Angle;
+    BallIndex := Succ(BallIndex) mod Length(Balls);
+  end;
+
+  Invalidate;
+
+end;
+
+procedure TmainFrm.WMEraseBkGnd(var Message: TMessage);
+begin
+  Message.Result := 1;
+end;
+
+procedure TmainFrm.FormMouseMove(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+begin
+  Angle := ArcTan2(-Y + ClientHeight div 2, X - ClientWidth div 2) * 180 / Pi + 270;
+end;
+
+end.
+```
 
